@@ -7,7 +7,7 @@ const BarChart = props => {
   //
   let propObj = Object.assign({}, props);
   //console.log("clone",propObj)
-  if ((propObj.from = 'individual')&&propObj.product!=undefined) {
+  if ((propObj.from === 'individual')&&propObj.product!=undefined) {
     const { name, phone, tablets } = propObj.product
     var options = {
       chart: {

@@ -5,63 +5,65 @@ import HighchartsReact from 'highcharts-react-official'
 const BarChart = props => {
   //console.log('check from', props)
   //
-  let propObj = Object.assign({}, props);
+  let propObj = {...props} ;
   //console.log("clone",propObj)
-  if ((propObj.from === 'individual')&&propObj.product!=undefined) {
-    const { name, phone, tablets } = propObj.product
-    var options = {
-      chart: {
-        type: 'column'
-      },
+  var options = {
+    chart: {
+      type: 'column'
+    },
+    title: {
+      text: ``
+    },
+
+    xAxis: {
+      type: 'category'
+    },
+    yAxis: {
       title: {
-        text: `${name} Phones and Tablets`
-      },
-
-      xAxis: {
-        type: 'category'
-      },
-      yAxis: {
-        title: {
-          text: 'No of items'
+        text: 'No of items'
+      }
+    },
+    legend: {
+      enabled: false
+    },
+    plotOptions: {
+      series: {
+        pointPadding: 0.4,
+        borderWidth: 0,
+        dataLabels: {
+          enabled: true,
+          format: '{point.y}'
         }
-      },
-      legend: {
-        enabled: false
-      },
-      plotOptions: {
-        series: {
-          pointPadding: 0.4,
-          borderWidth: 0,
-          dataLabels: {
-            enabled: true,
-            format: '{point.y}'
+      }
+    },
+
+    tooltip: {
+      headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+      pointFormat:
+        '<span style="color:{point.color}">{point.name}</span>: <b>{point.y}</b><br/>'
+    },
+    series:[]
+  }
+  if ((propObj.from === 'individual')&&propObj.product!==undefined) {
+    const { name, phone, tablets } = propObj.product
+    options.title.text = `${name} Phones and tablets`
+
+    options.series = [
+      {
+        name: name,
+        colorByPoint: true,
+        data: [
+          {
+            name: 'Phone',
+            y: phone
+          },
+          {
+            name: 'Tablets',
+            y: tablets
           }
-        }
-      },
-
-      tooltip: {
-        headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
-        pointFormat:
-          '<span style="color:{point.color}">{point.name}</span>: <b>{point.y}</b><br/>'
-      },
-
-      series: [
-        {
-          name: name,
-          colorByPoint: true,
-          data: [
-            {
-              name: 'Phone',
-              y: phone
-            },
-            {
-              name: 'Tablets',
-              y: tablets
-            }
-          ]
-        }
-      ]
-    }
+        ]
+      }
+    ]
   } else {
     const productData = propObj.products
     const xAxis = []
@@ -72,53 +74,18 @@ const BarChart = props => {
       phoneData.push(product.phone)
       tabletData.push(product.tablets)
     })
-    var options = {
-      chart: {
-        type: 'column'
+    options.title.text = `Phones and tablets`
+    options.plotOptions.pointPadding = 0.1
+    options.series = [
+      {
+        name: 'Phones',
+        data: phoneData
       },
-      title: {
-        text: `Phones and Tablets`
-      },
-
-      xAxis: {
-        categories: xAxis
-      },
-      yAxis: {
-        title: {
-          text: 'No of items'
-        }
-      },
-      legend: {
-        enabled: false
-      },
-      plotOptions: {
-        series: {
-          pointPadding: 0.1,
-          borderWidth: 0,
-          dataLabels: {
-            enabled: true,
-            format: '{point.y}'
-          }
-        }
-      },
-
-      tooltip: {
-        headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
-        pointFormat:
-          '<span style="color:{point.color}">{point.name}</span>: <b>{point.y}</b><br/>'
-      },
-
-      series: [
-        {
-          name: 'Phones',
-          data: phoneData
-        },
-        {
-          name: 'Tablets',
-          data: tabletData
-        }
-      ]
-    }
+      {
+        name: 'Tablets',
+        data: tabletData
+      }
+    ]
   }
   
   return (

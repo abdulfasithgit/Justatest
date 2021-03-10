@@ -10,6 +10,12 @@ const users = [
         password:12345678,
 
     },
+     {
+        id:3,
+        email:"googleuser@gmail.com",
+        password:12345678,
+
+    }
 ]
 
 module.exports = users

@@ -7,11 +7,16 @@ const authUser = (req, res) => {
   if (req.query && req.query.from=='google') {
    
     const { email, name, googleId } = req.body
-    res.json({
-      name: name,
-      email: email,
-      token: generateToken(googleId)
-    })
+     if (email && name ) {
+      res.json({
+        name: name,
+        email: email,
+        token: generateToken(3)//for google user
+      })
+    } else {
+      res.status(400)
+      throw new Error('Google client error')
+    }
   } else {
     //console.log(req.body);
     const { email, password } = req.body
